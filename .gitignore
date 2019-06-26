@@ -3,8 +3,12 @@
 ### Example user template
 
 # IntelliJ project files
-.idea
+.idea/
 *.iml
 out
 gen
-Test*.javass
+Test*.java
+.gitignore
+.mvn/
+mvnw
+mvnw.cmd
