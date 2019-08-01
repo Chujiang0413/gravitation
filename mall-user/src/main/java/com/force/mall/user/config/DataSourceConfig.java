@@ -10,7 +10,10 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import javax.sql.DataSource;
-
+/**
+ * @author 褚江江
+ * @date 2019-07-05
+ */
 public class DataSourceConfig {
     @Bean(name = "dataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
