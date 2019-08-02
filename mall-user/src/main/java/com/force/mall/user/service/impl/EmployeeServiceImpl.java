@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+
 /**
  * @author 褚江江
  * @date 2019-07-05
@@ -27,8 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeUserInfo> getEmployeeUserList() {
-        List<EmployeeUserInfo> employeeInfos = employeeMapper.selectEmployeeUserInfo();
+    public List<EmployeeUserInfo> getEmployeeUserInfos() {
+        List<EmployeeUserInfo> employeeInfos = employeeMapper.selectEmployeeUserInfos();
         return employeeInfos;
     }
 
@@ -63,5 +65,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (info==1||user==1) {
             System.out.println("successfully！");
         }
+    }
+
+    @Override
+    public List<EmployeeUserInfo> getEmployeeUserList(Map<String,Object> map) {
+        List<EmployeeUserInfo> employeeUserInfo = employeeMapper.selectEmployeeUserInfo(map);
+        return employeeUserInfo;
     }
 }

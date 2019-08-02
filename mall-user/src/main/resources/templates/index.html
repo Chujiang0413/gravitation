@@ -10,10 +10,10 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">layui 后台布局</div>
+        <div class="layui-logo">焦作新港医疗器械有限公司</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="../empList.html" target="option">系统控制台</a></li>
+            <li class="layui-nav-item"><a href="templates/empList.html" target="option">系统控制台</a></li>
             <li class="layui-nav-item"><a href="">商品管理</a></li>
             <li class="layui-nav-item"><a href="">用户</a></li>
             <li class="layui-nav-item">
@@ -47,30 +47,29 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">员工信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="javascript:;">办公室</a></dd>
+                        <dd><a href="javascript:;">车间办公室</a></dd>
+                        <dd><a href="javascript:;">车间</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
+                    <a href="javascript:;">员工测验</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="javascript:;">测验一</a></dd>
+                        <dd><a href="javascript:;">测验二</a></dd>
+                        <dd><a href="">学习区</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">云市场</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="laydate-day-mark">市场一</a></dd>
-                        <dd><a href="javascript:;">市场二</a></dd>
-                        <dd><a href="javascript:;">市场三</a></dd>
+                        <dd><a href="javascript:;" class="laydate-day-mark">公司产品</a></dd>
+                        <dd><a href="javascript:;">代卖产品</a></dd>
+                        <dd><a href="javascript:;">成功案例</a></dd>
 
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
+                <li class="layui-nav-item"><a href="">公司简介</a></li>
             </ul>
         </div>
     </div>
@@ -118,19 +117,24 @@
         //执行一个 table 实例
         table.render({
             elem: '#demo'
+            ,title: '用户表'
             ,height: 420
             ,url: '/getEmployeeUserInfo' //数据接口
-            ,title: '用户表'
-            ,page: true //开启分页
+            ,limit:5
+            ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']//自定义分页布局
+                ,limits:[5,10,15]
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+            } //开启分页
             ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-            ,totalRow: true //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'empId', title: 'ID', width:80, sort: true, fixed: 'left'}
-                ,{field: 'empName', title: '姓名', width:80}
+                ,{field: 'empName', title: '姓名', width:130}
                 ,{field: 'empSex', title: '性别', width: 90, sort: true}
                 ,{field: 'empAge', title: '年龄', width:80, sort: true}
-                ,{field: 'empEmail', title: '邮箱', width: 80}
+                ,{field: 'empEmail', title: '邮箱', width: 200}
                 ,{field: 'empAddress', title: '地址', width:150}
                 ,{field: 'empUsername', title: '用户名', width: 200}
                 ,{field: 'empPassword', title: '密码', width: 100}
@@ -145,6 +149,7 @@
             switch(obj.event){
                 case 'add':
                     layer.msg('添加');
+
                     break;
                 case 'update':
                     if(data.length === 0){
@@ -152,7 +157,28 @@
                     } else if(data.length > 1){
                         layer.msg('只能同时编辑一个');
                     } else {
-                        layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+                        //脚本编辑弹出层
+                        var name = encodeURIComponent(data.toolName);
+                        // console.log(data.toolName);
+                        layer.open({
+                            type: 2,
+                            title: '编辑员工信息',
+                            skin: 'layui-layer-demo',//样式类名
+                            shadeClose: true,//开启遮罩关闭
+                            closeBtn:1,//显示关闭按钮,不显示为0
+                            shade: 1.0,
+                            maxmin: true,
+                            area: ['600px', '600px'],
+                            content: "templates/empList.html",//设置你要弹出的jsp页面
+                            success: function(layero, index){
+                                var body = layer.getChildFrame('body', index);
+                                var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                                var inputList = body.find("input");//获取到子窗口的所有的input标签
+                                for (var i = 0; i < inputList.length; i++ ) {
+                                    $(inputList[i]).val(editList[i]); //遍历子窗口的input标签，将之前数组中的值一次放入显示
+                                }
+                            }
+                        });
                     }
                     break;
                 case 'delete':
