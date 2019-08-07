@@ -55,6 +55,15 @@
                 WHERE i.emp_id = u.emp_id
                 limit #{pageNum},#{pageSize}
     </select>
+
+    <select id="selectEmployeeUserInfoById" resultMap="selectEmployeeUserInfo" parameterType="java.lang.String">
+        SELECT i.emp_id,emp_age,emp_sex,
+                emp_name,emp_email,emp_address,
+                emp_username,emp_password,submissionDate
+            FROM employee_info i,employee_user u
+                WHERE i.emp_id = u.emp_id
+                and i.emp_id = #{empId};
+    </select>
     
     <insert id="insertEmployeeInfo" parameterType="com.force.mall.user.pojo.EmployeeInfo" keyColumn="empId">
         insert into employee_info (emp_id,emp_age,emp_sex,emp_name,emp_email,emp_address)

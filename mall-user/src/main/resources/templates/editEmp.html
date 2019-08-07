@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>编辑员工信息</title>
+    <link rel="stylesheet" href="./layui/css/layui.css" />
+    <script src="./layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">ID</label>
+            <div class="layui-input-inline">
+                <input name="empId" lay-verify="required"  autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-inline">
+                <input name="empName" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-inline">
+                <input name="empSex" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">年龄</label>
+            <div class="layui-input-inline">
+                <input name="empAge" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-inline">
+                <input name="empEmail" lay-verify="email" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">地址 </label>
+            <div class="layui-input-inline">
+                <input name="empAddress" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">账号 </label>
+            <div class="layui-input-inline">
+                <input name="empUsername" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">密码 </label>
+            <div class="layui-input-inline">
+                <input name="empPassword" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">入职时间 </label>
+            <div class="layui-input-inline">
+                <input name="submissionDate" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="editStudent">立即提交</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+    <script>
+    layui.use(['form', 'layedit'] ,function(){
+        var $ = layui.jquery
+            ,form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit;
+        var index = parent.layer.getFrameIndex(window.name); //修改成功的时候点击 确定 会关闭子窗口，这里获取一下子窗口
+        form.render();
+        //监听提交
+        form.on('submit(editStudent)', function(data){ //这块要跟表单中的lay-filter="editStudent"对应
+            $.ajax({
+                url: '/addEmpleyeeUserInfo',
+                type: "post",
+                async: false,   //不要让它异步提交
+                data: data.field,
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg!='0'){
+                        layer.alert("修改成功",{icon: 1,time:2000},function () {
+                            layer.close(layer.index);
+                            window.parent.location.reload();    //重新加载父页面，进行数据刷新
+                        });
+                    } else{
+                        layer.alert("修改失败",{icon: 2,time:2000});
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</html>

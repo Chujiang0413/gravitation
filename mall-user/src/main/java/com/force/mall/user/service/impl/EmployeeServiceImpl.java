@@ -72,4 +72,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeUserInfo> employeeUserInfo = employeeMapper.selectEmployeeUserInfo(map);
         return employeeUserInfo;
     }
+
+    @Override
+    public EmployeeUserInfo getEmployeeUserInfoById(String empid) {
+        EmployeeUserInfo employeeUserInfo = null;
+        try {
+            employeeUserInfo = employeeMapper.selectEmployeeUserInfoById(empid);
+        }catch(Exception e){
+            employeeUserInfo.setMsg("失败！");
+        }
+        return employeeUserInfo;
+    }
 }

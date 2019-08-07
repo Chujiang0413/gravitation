@@ -37,12 +37,16 @@ public class UserResource {
         return "index";
     }
 
+    @RequestMapping("/editEmp")
+    public String editEmp(){
+        return "editEmp";
+    }
+
     @RequestMapping("/templates")
     public String httpRequest(HttpServletRequest httpServletRequest){
         httpServletRequest.setAttribute("key","Hello World!");
-        return "empList";
+        return "editEmp";
     }
-
 
     @RequestMapping("/getEmployeeList")
     @ResponseBody
@@ -55,6 +59,7 @@ public class UserResource {
         empContext.setData(employeelist);
         return empContext;
     }
+
     @RequestMapping("/getEmployeeUserInfos")
     @ResponseBody
     public EmpInfoContext getEmployeeUserInfos() throws IOException {
@@ -66,6 +71,7 @@ public class UserResource {
         empInfoContext.setData(employeeInfos);
         return empInfoContext;
     }
+
     @RequestMapping("/getEmployeeUserInfo")
     @ResponseBody
     public Map<String,Object> getEmployeeUserInfo(int page, int limit) throws IOException {
@@ -89,6 +95,13 @@ public class UserResource {
         tableData.put("data", employeeInfo);
         //返回给前端
         return tableData;
+    }
+
+    @RequestMapping("/getEmployeeUserInfoById")
+    @ResponseBody
+    public EmployeeUserInfo getEmployeeUserInfoById (String empid) throws Exception{
+        EmployeeUserInfo employeeUserInfo = employeeService.getEmployeeUserInfoById(empid);
+        return employeeUserInfo;
     }
 
     @RequestMapping("/addEmpleyeeUserInfo")

@@ -22,5 +22,6 @@ public class EmployeeUserInfo implements Serializable {
     private String empUsername;
     private String empPassword;
     private String submissionDate;
+    private  String msg = "成功";
 
 }

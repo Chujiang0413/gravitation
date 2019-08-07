@@ -25,4 +25,5 @@ public interface EmployeeMapper {
     List<EmployeeUserInfo> selectEmployeeUserInfo(Map<String,Object> map);
 
 
+    EmployeeUserInfo selectEmployeeUserInfoById(String empid);
 }

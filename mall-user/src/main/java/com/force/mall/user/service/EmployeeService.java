@@ -20,4 +20,6 @@ public interface EmployeeService {
     void addEmployeeUserInfo(EmployeeUserInfo employeeUserInfo);
 
     List<EmployeeUserInfo> getEmployeeUserList(Map<String,Object> map);
+
+    EmployeeUserInfo getEmployeeUserInfoById(String empid);
 }
