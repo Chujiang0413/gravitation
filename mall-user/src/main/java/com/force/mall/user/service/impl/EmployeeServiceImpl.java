@@ -37,34 +37,38 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void addEmployeeUserInfo(EmployeeUserInfo employeeUserInfo) {
 
-        EmployeeInfo employeeInfo = new EmployeeInfo();
-        employeeInfo.setEmpId(Long.valueOf(employeeUserInfo.getEmpId()));
-        employeeInfo.setEmpAge(Integer.valueOf(employeeUserInfo.getEmpAge()));
-        employeeInfo.setEmpSex(employeeUserInfo.getEmpSex());
-        employeeInfo.setEmpName(employeeUserInfo.getEmpName());
-        employeeInfo.setEmpEmail(employeeUserInfo.getEmpEmail());
-        employeeInfo.setEmpAddress(employeeUserInfo.getEmpAddress());
-        int info = employeeMapper.insertEmployeeInfo(employeeInfo);
+        try {
+            EmployeeInfo employeeInfo = new EmployeeInfo();
+            employeeInfo.setEmpId(Long.valueOf(employeeUserInfo.getEmpId()));
+            employeeInfo.setEmpAge(Integer.valueOf(employeeUserInfo.getEmpAge()));
+            employeeInfo.setEmpSex(employeeUserInfo.getEmpSex());
+            employeeInfo.setEmpName(employeeUserInfo.getEmpName());
+            employeeInfo.setEmpEmail(employeeUserInfo.getEmpEmail());
+            employeeInfo.setEmpAddress(employeeUserInfo.getEmpAddress());
+            int info = employeeMapper.insertEmployeeInfo(employeeInfo);
+            if(info==0){
+                System.out.println("info插入失败！");
+            }
+            EmployeeUser employeeUser = new EmployeeUser();
+            employeeUser.setEmpId(Long.valueOf(employeeUserInfo.getEmpId()));
+            employeeUser.setEmpUsername(employeeUserInfo.getEmpUsername());
+            employeeUser.setEmpPassword(employeeUserInfo.getEmpPassword());
+            employeeUser.setSubmissionDate(employeeUserInfo.getSubmissionDate());
+            int user = employeeMapper.insertEmployeeUser(employeeUser);
+            if(user==0){
+                System.out.println("user插入失败！");
+            }
 
-        EmployeeUser employeeUser = new EmployeeUser();
-        employeeUser.setEmpId(Long.valueOf(employeeUserInfo.getEmpId()));
-        employeeUser.setEmpUsername(employeeUserInfo.getEmpUsername());
-        employeeUser.setEmpPassword(employeeUserInfo.getEmpPassword());
-        employeeUser.setSubmissionDate(employeeUserInfo.getSubmissionDate());
-        int user = employeeMapper.insertEmployeeUser(employeeUser);
+            if (info==0||user==0) {
+                System.out.println("程序错误！");
+            }
+            if (info==1||user==1) {
+                System.out.println("successfully！");
+            }
+        }catch (Exception e){
 
-        if(info==0){
-            System.out.println("info插入失败！");
         }
-        if(user==0){
-            System.out.println("user插入失败！");
-        }
-        if (info==0||user==0) {
-            System.out.println("程序错误！");
-        }
-        if (info==1||user==1) {
-            System.out.println("successfully！");
-        }
+
     }
 
     @Override
